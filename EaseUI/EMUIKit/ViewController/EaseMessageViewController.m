@@ -1144,7 +1144,9 @@ typedef enum : NSUInteger {
             if (_dataSource && [_dataSource respondsToSelector:@selector(emotionURLFormessageViewController:messageModel:)]) {
                 EaseEmotion *emotion = [_dataSource emotionURLFormessageViewController:self messageModel:model];
                 if (emotion) {
-                    model.image = [UIImage sd_animatedGIFNamed:emotion.emotionOriginal];
+//                    model.image = [UIImage sd_animatedGIFNamed:emotion.emotionOriginal];
+                    [UIImage sd_animatedGIFWithData: [NSData dataWithContentsOfFile:emotion.emotionOriginal]];
+
                     model.fileURLPath = emotion.emotionOriginalURL;
                 }
             }
