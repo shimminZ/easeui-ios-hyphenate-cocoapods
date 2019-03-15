@@ -244,16 +244,16 @@ typedef enum : NSUInteger {
 - (void)joinChatroom:(NSString *)chatroomId
 {
     __weak typeof(self) weakSelf = self;
-    [self showHudInView:self.view hint:@"正在加入..."];
+//    [self showHudInView:self.view hint:@"正在加入..."];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         EMError *error = nil;
         EMChatroom *chatroom = [[EMClient sharedClient].roomManager joinChatroom:chatroomId error:&error];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (weakSelf) {
                 EaseMessageViewController *strongSelf = weakSelf;
-                [strongSelf hideHud];
+//                [strongSelf hideHud];
                 if (error != nil) {
-                    [strongSelf showHint:[NSString stringWithFormat:@"加入聊天室\'%@\'失败", chatroomId]];
+//                    [strongSelf showHint:[NSString stringWithFormat:@"加入聊天室\'%@\'失败", chatroomId]];
                 } else {
                     strongSelf.isJoinedChatroom = YES;
                     [strongSelf saveChatroom:chatroom];
@@ -277,14 +277,14 @@ typedef enum : NSUInteger {
                             username:(NSString *)aUsername
 {
     CGRect frame = self.chatToolbar.frame;
-    [self showHint:[NSString stringWithFormat:@"\'%@\'加入聊天室\'%@\'", aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
+//    [self showHint:[NSString stringWithFormat:@"\'%@\'加入聊天室\'%@\'", aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
 }
 
 - (void)didReceiveUserLeavedChatroom:(EMChatroom *)aChatroom
                             username:(NSString *)aUsername
 {
     CGRect frame = self.chatToolbar.frame;
-    [self showHint:[NSString stringWithFormat:@"\'%@\'离开聊天室\'%@\'", aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
+//    [self showHint:[NSString stringWithFormat:@"\'%@\'离开聊天室\'%@\'", aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
 }
 
 - (void)didDismissFromChatroom:(EMChatroom *)aChatroom
@@ -309,7 +309,7 @@ typedef enum : NSUInteger {
             [self presentViewController:alertController animated:YES completion:nil];
         } else {
             CGRect frame = self.chatToolbar.frame;
-            [self showHint:[NSString stringWithFormat:@"被踢出聊天室\'%@\'", aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
+//            [self showHint:[NSString stringWithFormat:@"被踢出聊天室\'%@\'", aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
             [self.navigationController popToViewController:self animated:NO];
             [self.navigationController popViewControllerAnimated:YES];
         }
@@ -584,7 +584,7 @@ typedef enum : NSUInteger {
         }
         else
         {
-            [weakSelf showHint:@"获取缩略图失败!"];
+//            [weakSelf showHint:@"获取缩略图失败!"];
         }
     };
     
@@ -635,7 +635,7 @@ typedef enum : NSUInteger {
                             [weakSelf _reloadTableViewDataWithMessage:message];
                         }
                         else {
-                            [weakSelf showHint:@"获取语音失败"];
+//                            [weakSelf showHint:@"获取语音失败"];
                         }
                     }];
                 }
@@ -760,7 +760,7 @@ typedef enum : NSUInteger {
     
     NSString *localPath = [model.fileLocalPath length] > 0 ? model.fileLocalPath : videoBody.localPath;
     if ([localPath length] == 0) {
-        [self showHint:@"获取视频失败!"];
+//        [self showHint:@"获取视频失败!"];
         return;
     }
     
@@ -785,12 +785,12 @@ typedef enum : NSUInteger {
         }
         else
         {
-            [weakSelf showHint:@"获取缩略图失败!"];
+//            [weakSelf showHint:@"获取缩略图失败!"];
         }
     };
     
     if (videoBody.thumbnailDownloadStatus == EMDownloadStatusFailed || ![[NSFileManager defaultManager] fileExistsAtPath:videoBody.thumbnailLocalPath]) {
-        [self showHint:@"begin downloading thumbnail image, click later"];
+//        [self showHint:@"begin downloading thumbnail image, click later"];
         if (isCustomDownload) {
             [self _customDownloadMessageFile:model.message];
         } else {
@@ -805,16 +805,16 @@ typedef enum : NSUInteger {
         return;
     }
     
-    [self showHudInView:self.view hint:@"正在获取视频..."];
+//    [self showHudInView:self.view hint:@"正在获取视频..."];
     if (isCustomDownload) {
         [self _customDownloadMessageFile:model.message];
     } else {
         [[EMClient sharedClient].chatManager downloadMessageAttachment:model.message progress:nil completion:^(EMMessage *message, EMError *error) {
-            [weakSelf hideHud];
+//            [weakSelf hideHud];
             if (!error) {
                 block();
             }else{
-                [weakSelf showHint:@"获取视频失败!"];
+//                [weakSelf showHint:@"获取视频失败!"];
             }
         }];
     }
@@ -849,10 +849,10 @@ typedef enum : NSUInteger {
                 }
             }
             
-            [weakSelf showHudInView:weakSelf.view hint:@"正在获取大图..."];
+//            [weakSelf showHudInView:weakSelf.view hint:@"正在获取大图..."];
 
             void (^completion)(EMMessage *aMessage, EMError *error) = ^(EMMessage *aMessage, EMError *error) {
-                [weakSelf hideHud];
+//                [weakSelf hideHud];
                 if (!error) {
                     //send the acknowledgement
                     [weakSelf _sendHasReadResponseForMessages:@[model.message] isRead:YES];
@@ -871,7 +871,7 @@ typedef enum : NSUInteger {
                         return ;
                     }
                 }
-                [weakSelf showHint:@"获取大图失败!"];
+//                [weakSelf showHint:@"获取大图失败!"];
             };
             
             if (isCustomDownload) {
@@ -888,7 +888,7 @@ typedef enum : NSUInteger {
                     if (!error) {
                         [weakSelf _reloadTableViewDataWithMessage:model.message];
                     }else{
-                        [weakSelf showHint:@"获取缩略图失败!"];
+//                        [weakSelf showHint:@"获取缩略图失败!"];
                     }
                 }];
             }
@@ -909,12 +909,12 @@ typedef enum : NSUInteger {
     EMVoiceMessageBody *body = (EMVoiceMessageBody*)model.message.body;
     EMDownloadStatus downloadStatus = [body downloadStatus];
     if (downloadStatus == EMDownloadStatusDownloading) {
-        [self showHint:@"正在下载语音，稍后点击"];
+//        [self showHint:@"正在下载语音，稍后点击"];
         return;
     }
     else if (downloadStatus == EMDownloadStatusFailed || downloadStatus == EMDownloadStatusPending)
     {
-        [self showHint:@"正在下载语音，稍后点击"];
+//        [self showHint:@"正在下载语音，稍后点击"];
         BOOL isCustomDownload = !([EMClient sharedClient].options.isAutoTransferMessageAttachments);
         if (isCustomDownload) {
             [self _customDownloadMessageFile:model.message];
@@ -1235,7 +1235,7 @@ typedef enum : NSUInteger {
                             if (data != nil) {
                                 [self sendImageMessageWithData:data];
                             } else {
-                                [self showHint:@"图片太大，请选择其他图片"];
+//                                [self showHint:@"图片太大，请选择其他图片"];
                             }
                         }];
                     }
@@ -1320,7 +1320,7 @@ typedef enum : NSUInteger {
         case EMMessageBodyTypeFile:
         {
             _scrollToBottomWhenAppear = NO;
-            [self showHint:@"Custom implementation!"];
+//            [self showHint:@"Custom implementation!"];
         }
             break;
         default:
@@ -1570,9 +1570,9 @@ typedef enum : NSUInteger {
                 [weakSelf sendVoiceMessageWithLocalPath:recordPath duration:aDuration];
             }
             else {
-                [weakSelf showHudInView:self.view hint:error.domain];
+//                [weakSelf showHudInView:self.view hint:error.domain];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [weakSelf hideHud];
+//                    [weakSelf hideHud];
                 });
             }
         }];
@@ -1632,7 +1632,7 @@ typedef enum : NSUInteger {
     [self.chatToolbar endEditing:YES];
     
 #if TARGET_IPHONE_SIMULATOR
-    [self showHint:@"模拟器不支持拍照"];
+//    [self showHint:@"模拟器不支持拍照"];
 #elif TARGET_OS_IPHONE
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage,(NSString *)kUTTypeMovie];
@@ -1712,7 +1712,7 @@ typedef enum : NSUInteger {
                 continue;
             }
             
-            [self showHint:@"有透传消息"];
+//            [self showHint:@"有透传消息"];
         }
     }
 }

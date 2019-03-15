@@ -138,7 +138,7 @@ static EaseLocationViewController *defaultLocation = nil;
 
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error
 {
-    [self hideHud];
+//    [self hideHud];
     if (error.code == 0) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                             message:[error.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey]
@@ -191,7 +191,7 @@ static EaseLocationViewController *defaultLocation = nil;
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     
-    [self showHudInView:self.view hint:@"正在定位..."];
+//    [self showHudInView:self.view hint:@"正在定位..."];
 }
 
 /*!
@@ -222,7 +222,7 @@ static EaseLocationViewController *defaultLocation = nil;
  */
 - (void)removeToLocation:(CLLocationCoordinate2D)locationCoordinate
 {
-    [self hideHud];
+//    [self hideHud];
     
     _currentLocationCoordinate = locationCoordinate;
     float zoomLevel = 0.01;
